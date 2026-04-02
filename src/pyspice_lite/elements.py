@@ -85,3 +85,91 @@ class CurrentSource(Element):
         if self.waveform is not None:
             parts.append(self.waveform)
         return " ".join(parts)
+
+
+@dataclass
+class ModelCard(Element):
+    """SPICE .model statement.
+
+    model_type: NPN, PNP, NMOS, PMOS, NJF, PJF, …
+    params: optional model parameters, e.g. {"IS": 1e-14, "BF": 100}
+    """
+    model_type: str
+    params: dict[str, float] = field(default_factory=dict)
+
+    def spice_line(self) -> str:
+        parts = [f".model {self.name} {self.model_type}"]
+        if self.params:
+            param_str = " ".join(f"{k}={v}" for k, v in self.params.items())
+            parts.append(f"({param_str})")
+        return " ".join(parts)
+
+
+@dataclass
+class BJT(Element):
+    """Bipolar Junction Transistor.
+
+    SPICE syntax: Qxxx collector base emitter [substrate] model_name [area]
+    substrate defaults to '0' when omitted from the netlist line.
+    """
+    collector: str
+    base: str
+    emitter: str
+    model: str
+    substrate: str | None = field(default=None)
+    area: float | None = field(default=None)
+
+    def spice_line(self) -> str:
+        nodes = [self.collector, self.base, self.emitter]
+        if self.substrate is not None:
+            nodes.append(self.substrate)
+        parts = [f"Q{self.name}"] + nodes + [self.model]
+        if self.area is not None:
+            parts.append(str(self.area))
+        return " ".join(parts)
+
+
+@dataclass
+class JFET(Element):
+    """Junction Field-Effect Transistor.
+
+    SPICE syntax: Jxxx drain gate source model_name [area]
+    """
+    drain: str
+    gate: str
+    source: str
+    model: str
+    area: float | None = field(default=None)
+
+    def spice_line(self) -> str:
+        parts = [f"J{self.name}", self.drain, self.gate, self.source, self.model]
+        if self.area is not None:
+            parts.append(str(self.area))
+        return " ".join(parts)
+
+
+@dataclass
+class MOSFET(Element):
+    """MOSFET transistor.
+
+    SPICE syntax: Mxxx drain gate source bulk model_name [W=val L=val ...]
+    """
+    drain: str
+    gate: str
+    source: str
+    bulk: str
+    model: str
+    w: float | None = field(default=None)   # channel width, metres
+    l: float | None = field(default=None)   # channel length, metres
+
+    def spice_line(self) -> str:
+        parts = [
+            f"M{self.name}",
+            self.drain, self.gate, self.source, self.bulk,
+            self.model,
+        ]
+        if self.w is not None:
+            parts.append(f"W={self.w}")
+        if self.l is not None:
+            parts.append(f"L={self.l}")
+        return " ".join(parts)

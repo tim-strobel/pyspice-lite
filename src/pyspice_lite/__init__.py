@@ -1,9 +1,13 @@
 from .analysis import AC, DC, OP, Transient
 from .circuit import Circuit
 from .elements import (
+    BJT,
     Capacitor,
     CurrentSource,
     Inductor,
+    JFET,
+    ModelCard,
+    MOSFET,
     Resistor,
     VoltageSource,
 )
@@ -17,6 +21,10 @@ __all__ = [
     "Inductor",
     "VoltageSource",
     "CurrentSource",
+    "BJT",
+    "JFET",
+    "MOSFET",
+    "ModelCard",
     "Netlist",
     "Simulator",
     "OP",
