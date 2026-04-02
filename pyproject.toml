@@ -7,6 +7,7 @@ packages = [{include = "pyspice_lite", from = "src"}]
 
 [tool.poetry.dependencies]
 python = ">=3.11"
+matplotlib = "^3.10.8"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "*"

@@ -12,6 +12,7 @@ from .elements import (
     VoltageSource,
 )
 from .netlist import Netlist
+from .plot import parse_print_output, plot
 from .simulator import Simulator
 
 __all__ = [
@@ -31,4 +32,6 @@ __all__ = [
     "Transient",
     "AC",
     "DC",
+    "parse_print_output",
+    "plot",
 ]

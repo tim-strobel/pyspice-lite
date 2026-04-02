@@ -25,6 +25,7 @@ from pyspice_lite import (
     Simulator,
     Transient,
     VoltageSource,
+    plot,
 )
 
 # ---------------------------------------------------------------------------
@@ -92,6 +93,7 @@ try:
     )
     output = Simulator("/opt/homebrew/bin/ngspice").run(c, analysis)
     print(output)
+    plot(output, title=f"{N_STAGES}-Stage CMOS Ring Oscillator", ylabel="Voltage (V)")
 except FileNotFoundError:
     print("ngspice not found — install it to run simulations.")
 except Exception as e:
