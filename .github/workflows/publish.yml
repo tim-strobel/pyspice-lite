@@ -1,15 +1,15 @@
-name: Publish to PyPI
+name: Build and attach release assets
 
 on:
   release:
     types: [published]
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
 
     permissions:
-      id-token: write
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -25,5 +25,7 @@ jobs:
       - name: Build package
         run: poetry build
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Attach artifacts to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/*
