@@ -1,6 +1,13 @@
 """SPICE circuit element definitions."""
 
 from dataclasses import dataclass, field
+from typing import Protocol, runtime_checkable
+
+
+@runtime_checkable
+class SpiceElement(Protocol):
+    """Structural protocol: anything that can render itself as a SPICE line."""
+    def spice_line(self) -> str: ...
 
 
 @dataclass
@@ -173,3 +180,27 @@ class MOSFET(Element):
         if self.l is not None:
             parts.append(f"L={self.l}")
         return " ".join(parts)
+
+
+@dataclass
+class Library:
+    """SPICE .lib directive — include an external model library file.
+
+    SPICE syntax: .lib "path" [section]
+
+    Parameters
+    ----------
+    path:
+        Path to the library file (e.g. a PDK .lib or .spi file).
+    section:
+        Optional section name within the file (e.g. "tt", "ff", "ss").
+        When omitted the entire file is included.
+    """
+    path: str
+    section: str | None = None
+
+    def spice_line(self) -> str:
+        line = f'.lib "{self.path}"'
+        if self.section is not None:
+            line += f" {self.section}"
+        return line

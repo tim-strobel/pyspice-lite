@@ -23,3 +23,10 @@ htmlcov/
 # IDE
 .vscode/
 .idea/
+
+# Model files
+models/
+
+# SPICE logging
+*.log
+b3v33check.log

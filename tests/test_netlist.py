@@ -1,4 +1,4 @@
-from pyspice_lite import BJT, Capacitor, Circuit, JFET, ModelCard, MOSFET, Netlist, Resistor, VoltageSource
+from pyspice_lite import BJT, Capacitor, Circuit, JFET, Library, ModelCard, MOSFET, Netlist, Resistor, VoltageSource
 
 
 def test_resistor_divider_netlist():
@@ -21,6 +21,25 @@ def test_capacitor_with_initial_voltage():
     c.add(Capacitor("1", "a", "0", capacitance=1e-6, initial_voltage=3.3))
     line = c.elements[0].spice_line()
     assert "IC=3.3" in line
+
+
+def test_library_without_section():
+    lib = Library("/path/to/pdk.lib")
+    assert lib.spice_line() == '.lib "/path/to/pdk.lib"'
+
+
+def test_library_with_section():
+    lib = Library("/path/to/pdk.lib", section="tt")
+    assert lib.spice_line() == '.lib "/path/to/pdk.lib" tt'
+
+
+def test_library_in_netlist():
+    c = Circuit("BSIM Circuit")
+    c.add(Library("/path/to/tsmc65.lib", section="tt"))
+    c.add(VoltageSource("dd", "vdd", "0", dc=1.8))
+    netlist = Netlist(c).render()
+    assert '.lib "/path/to/tsmc65.lib" tt' in netlist
+    assert netlist.index('.lib') < netlist.index('Vdd')  # lib comes first
 
 
 def test_bjt_spice_line():

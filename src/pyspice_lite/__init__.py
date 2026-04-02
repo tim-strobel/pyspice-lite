@@ -6,9 +6,11 @@ from .elements import (
     CurrentSource,
     Inductor,
     JFET,
+    Library,
     ModelCard,
     MOSFET,
     Resistor,
+    SpiceElement,
     VoltageSource,
 )
 from .netlist import Netlist
@@ -24,8 +26,10 @@ __all__ = [
     "CurrentSource",
     "BJT",
     "JFET",
-    "MOSFET",
+    "Library",
     "ModelCard",
+    "MOSFET",
+    "SpiceElement",
     "Netlist",
     "Simulator",
     "OP",
