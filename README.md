@@ -181,6 +181,9 @@ sim = Simulator(executable="/usr/local/bin/ngspice")
 |---|---|
 | [examples/voltage_divider.py](examples/voltage_divider.py) | Resistor voltage divider, operating point |
 | [examples/ac_sweep.py](examples/ac_sweep.py) | RC low-pass filter, AC frequency sweep |
+| [examples/rc_transient.py](examples/rc_transient.py) | RC low-pass filter, transient step response |
+| [examples/ring_oscillator.py](examples/ring_oscillator.py) | 3-stage CMOS ring oscillator, transient analysis |
+| [examples/bsim_nmos.py](examples/bsim_nmos.py) | Single NMOS Id–Vgs sweep with BSIM3v3 model card |
 
 ## Development
 
