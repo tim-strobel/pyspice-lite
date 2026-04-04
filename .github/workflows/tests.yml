@@ -71,9 +71,9 @@ jobs:
           name: wheel
           path: dist/
 
-      - name: Install wheel
+      - name: Install wheel and pytest
         shell: bash
-        run: pip install dist/*.whl
+        run: pip install dist/*.whl pytest
 
       - name: Run tests against installed wheel
         run: pytest tests/
