@@ -1,5 +1,7 @@
 # pyspice-lite
 
+[![CI](https://github.com/tim-strobel/pyspice-lite/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/tim-strobel/pyspice-lite/actions/workflows/tests.yml)
+
 A minimal Python API for SPICE circuit simulators (ngspice and compatible).
 
 Define circuits in Python, render SPICE netlists, and run simulations — without the complexity of the original PySpice.
@@ -188,11 +190,12 @@ sim = Simulator(executable="/usr/local/bin/ngspice")
 ## Development
 
 ```bash
-git clone https://github.com/yourname/pyspice-lite
+git clone https://github.com/tim-strobel/pyspice-lite
 cd pyspice-lite
 python -m venv venv
 source venv/bin/activate
-pip install -e .
+pip install poetry
+poetry install
 ```
 
 ## License
